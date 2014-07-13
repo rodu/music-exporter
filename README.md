@@ -1,7 +1,7 @@
 # iTunes Music Exporter
 
 The music exporter is a Python program to faclilitate the physical
-reaorganization of a music collection using a descriptive folders / file names
+organization of a music collection using a descriptive folders / file names
 structure.
 The scope is to allow an easy browse of the music library on players such as car
 stereos, advanced CD players and so on. These players rely on the folders/files
