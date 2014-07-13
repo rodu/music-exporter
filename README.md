@@ -10,12 +10,12 @@ structure for the user to browse and select the desired traks.
 The music exporter parses an xml file created from an export of the iTunes music
 library, and organizes such export as a new copy of the files using a specific
 naming pattern.
-The patter used will be: [export folder] / [genre] / [artist] - [trak name]
+The pattern used will be: [export folder] / [genre] / [artist] - [trak name]
 
 The genre, the artist and the track names will be checked for the presence of
 invalid caracters which cannot be used on a given filesystem. The initial
 filesystem target will be the HFS+ of Mac, but the program will allow to
-easyly add more character replacements to satisfy for example NTFS Windows
+easily add more character replacements to satisfy for example NTFS Windows
 filesystem requirements.
 
 The program uses the SAX XML parser in order to deal with libraries export of
