@@ -46,31 +46,28 @@ class ParserContentHandler(handler.ContentHandler):
         self._data_dictionary.append(self._genres)
         return self._data_dictionary
 
-def build_data_dictionary(library_path):
-    # The routine will parse the music library XML and will build a data
-    # structure that will be used later to efficiently copy the files to their
-    # new locations
-    parser_content_handler = ParserContentHandler()
-    parser = make_parser()
-    parser.setContentHandler(parser_content_handler)
-    parser.parse(library_path)
+class Exporter():
 
-    return parser_content_handler.get_data_dictionary()
+    def __init__(self):
+        pass
 
-def export_music_library(data_dictionary):
-    print data_dictionary
+    def _build_data_dictionary(self, library_path):
+        # The routine will parse the music library XML and will build a data
+        # structure that will be used later to efficiently copy the files to their
+        # new locations
+        parser_content_handler = ParserContentHandler()
+        parser = make_parser()
+        parser.setContentHandler(parser_content_handler)
+        parser.parse(library_path)
 
-def get_library_path():
-    # Reads and validate the path to the library file as passed on the command
-    # line
-    return "../Library.xml"
-    
+        return parser_content_handler.get_data_dictionary()
+
+    def export_music_library(self, library_path):
+        print self._build_data_dictionary(library_path)
+
 def main():
-    export_music_library(
-        build_data_dictionary(
-            get_library_path()
-        )
-    )
+    exporter = Exporter()
+    exporter.export_music_library("../Library.xml")
 
 if __name__ == '__main__':
     main()
