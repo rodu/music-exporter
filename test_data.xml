@@ -76,6 +76,28 @@
       <key>File Folder Count</key><integer>5</integer>
       <key>Library Folder Count</key><integer>2</integer>
     </dict>
+    <key>35681</key>
+    <dict>
+      <key>Track ID</key><integer>35681</integer>
+      <key>Name</key><string>O Sole Mio</string>
+      <key>Artist</key><string>Pappalardo</string>
+      <key>Album</key><string>Tutti Al Mare Con Pappalardo!</string>
+      <key>Genre</key><string>Vomitante</string>
+      <key>Kind</key><string>MPEG audio file</string>
+      <key>Size</key><integer>638769</integer>
+      <key>Total Time</key><integer>39915</integer>
+      <key>Track Number</key><integer>1</integer>
+      <key>Year</key><integer>2004</integer>
+      <key>Date Modified</key><date>2010-08-14T10:34:06Z</date>
+      <key>Date Added</key><date>2013-11-29T18:35:21Z</date>
+      <key>Bit Rate</key><integer>128</integer>
+      <key>Sample Rate</key><integer>44100</integer>
+      <key>Normalization</key><integer>2942</integer>
+      <key>Persistent ID</key><string>83E01DE118679C1E</string>
+      <key>Track Type</key><string>File</string>
+      <key>File Folder Count</key><integer>5</integer>
+      <key>Library Folder Count</key><integer>2</integer>
+    </dict>
   </dict>
 </dict>
 </plist>

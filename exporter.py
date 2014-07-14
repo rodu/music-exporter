@@ -54,16 +54,17 @@ class ParserContentHandler(handler.ContentHandler):
             if (name == "dict"):
                 if (self._is_content_dict):
                     # save the created entry
-                    genre = (self._parsed_values["Genre"] or "Unknown")
-                    if (genre not in self._entries):
-                        self._entries[genre] = []
+                    if (self._parsed_values["Location"]):
+                        genre = (self._parsed_values["Genre"] or "Unknown")
+                        if (genre not in self._entries):
+                            self._entries[genre] = []
 
-                    self._entries[genre].append({
-                        "track_id": self._parsed_values["Track ID"],
-                        "artist": self._parsed_values["Artist"],
-                        "name": self._parsed_values["Name"],
-                        "location": self._parsed_values["Location"]
-                    })
+                        self._entries[genre].append({
+                            "Track ID": self._parsed_values["Track ID"],
+                            "Artist": self._parsed_values["Artist"] or "Unknown",
+                            "Name": self._parsed_values["Name"] or "Unknown",
+                            "Location": self._parsed_values["Location"]
+                        })
                     self._parsed_values = self._get_parsed_names()
                     self._is_content_dict = 0
                     self._current = ""
