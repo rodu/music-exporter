@@ -1,27 +1,50 @@
 from xml.sax import make_parser, handler
-import io
 
 class ParserContentHandler(handler.ContentHandler):
 
     def __init__(self):
         self._data_dictionary = []
+        self._genre_count = 0
+        self._tags = {
+            "key": 0,
+            "string": 0
+        }
+        self._is_key = 0
+        self._is_value = 0
+        self._is_genre = 0
+        self._genres = {}
 
-    def start_element(self, name, attrs):
-        pass
+    def startElement(self, name, attrs):
+        if (name in self._tags):
+            self._tags[name] = 1
 
     def characters(self, content):
-        pass
+        if (content is not None and content.lower() == "genre"):
+            self._genre_count += 1
+            self._is_genre = 1
+            return
 
-    def optimise_content(self, content):
-        pass
+        if (self._is_genre and self._tags["string"]):
+            #print "adding genre" + content
+            # Adds the genre as key of a new set of traks if it does not exists
+            if (content not in self._genres):
+                # Adds a new genre to the dictionary
+                self._genres[self.optimiseContent(content)] = []
 
-    def end_element(self, name):
-        pass
+    def optimiseContent(self, content):
+        return content.replace("/", "-")
+
+    def endElement(self, name):
+        if (name in self._tags):
+            self._tags[name] = 0
+        if (self._is_genre and name == "string"):
+            self._is_genre = 0
 
     def store(self, list, key, value):
         pass
 
     def get_data_dictionary(self):
+        self._data_dictionary.append(self._genres)
         return self._data_dictionary
 
 def build_data_dictionary(library_path):
@@ -31,7 +54,7 @@ def build_data_dictionary(library_path):
     parser_content_handler = ParserContentHandler()
     parser = make_parser()
     parser.setContentHandler(parser_content_handler)
-    parser.parse(get_library_path())
+    parser.parse(library_path)
 
     return parser_content_handler.get_data_dictionary()
 
@@ -41,7 +64,7 @@ def export_music_library(data_dictionary):
 def get_library_path():
     # Reads and validate the path to the library file as passed on the command
     # line
-    return "Library.xml"
+    return "../Library.xml"
     
 def main():
     export_music_library(
