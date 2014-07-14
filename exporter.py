@@ -25,7 +25,6 @@ class ParserContentHandler(handler.ContentHandler):
             return
 
         if (self._is_genre and self._tags["string"]):
-            #print "adding genre" + content
             # Adds the genre as key of a new set of traks if it does not exists
             if (content not in self._genres):
                 # Adds a new genre to the dictionary
