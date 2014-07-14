@@ -44,11 +44,13 @@ class ExporterTest(unittest.TestCase):
       "Blues": [{
           "track_id": 3566,
           "artist": "Hysteric Ego",
-          "name": "Want love"
+          "name": "Want love",
+          "location": "file://localhost/Users/rob/Documents/from_Ubuntu/Documents/vari/Suoneria-Hysteric_Ego_Want_love.mp3"
         },{
           "track_id": 3568,
           "artist": "Junior Jack",
-          "name": "E Samba (Rasmus Fabers Canao D"
+          "name": "E Samba (Rasmus Fabers Canao D",
+          "location": "file://localhost/Users/rob/Documents/from_Ubuntu/Documents/vari/Suoneria-JJ_E_Samba.mp3"
         }],
     }]
     actual = self.exporter._build_data_dictionary("test_data.xml")
@@ -62,6 +64,9 @@ class ExporterTest(unittest.TestCase):
     # Checks the name
     self.assertEquals(actual[0]["Blues"][0]["name"],
       expected[0]["Blues"][0]["name"])
+    # Checks the location
+    self.assertEquals(actual[0]["Blues"][0]["location"],
+      expected[0]["Blues"][0]["location"])
     #print(actual)
 
 
