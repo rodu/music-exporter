@@ -95,7 +95,16 @@ class Exporter():
         return parser_content_handler.get_data_dictionary()
 
     def export_music_library(self, library_path):
-        print self._build_data_dictionary(library_path)
+        library_dict = self._build_data_dictionary(library_path)
+        # Loops over library_dict and generates a file containing copy instructions
+        for entry in library_dict:
+            for genre in entry:
+                #print("cp " + genres["Genre"] + " destination\n")
+                print genre
+                for attributes in entry[genre]:
+                    print attributes["Location"]
+                break
+
 
 def main():
     exporter = Exporter()
