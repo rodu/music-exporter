@@ -16,7 +16,9 @@ class ParserContentHandlerTest(unittest.TestCase):
 class ExporterTest(unittest.TestCase):
 
   def setUp(self):
-    self.exporter = exporter.Exporter()
+    self.exporter = exporter.Exporter(
+        "/home/rob/music-exporter-tests/"
+      )
 
   def test_parsing_gernes(self):
     """
@@ -25,7 +27,8 @@ class ExporterTest(unittest.TestCase):
     """
     expected = [{
       "Unknown": [],
-      "Blues": []
+      "Blues": [],
+      "House-Vocal": []
     }]
     actual = self.exporter._build_data_dictionary("test_data.xml")
     

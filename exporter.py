@@ -1,4 +1,5 @@
 from xml.sax import make_parser, handler
+from optparse import OptionParser
 
 class ParserContentHandler(handler.ContentHandler):
 
@@ -164,8 +165,9 @@ class FileCopier():
 import sys
 class Exporter():
 
-    def __init__(self, destination, max_exports=0):
+    def __init__(self, destination, export_genres="", max_exports=0):
         self.destination = destination
+        self.export_genres = export_genres.split(",")
         self.max_exports = max_exports
 
     def _build_data_dictionary(self, library_path):
@@ -180,24 +182,32 @@ class Exporter():
         return parser_content_handler.get_data_dictionary()
 
     def export_music_library(self, library_path):
+        def read_attributes(entry):
+            for attributes in entry:
+                #print attributes
+                self.i += 1
+                if (self.max_exports > 0 and self.i > self.max_exports):
+                    break
+                fileCopier.copy(
+                    attributes["Location"],
+                    genre,
+                    attributes["Artist"],
+                    attributes["Name"])
+
         library_dict = self._build_data_dictionary(library_path)
         fileCopier = FileCopier(self.destination)
         # Loops over the library dictionary and copies the necessary files in
         # the appropriate destination
         print "[Exporter] Copying files..."
-        i = 0
+        filterGenres = len(self.export_genres) > 0
+        self.i = 0
         for entry in library_dict:
             for genre in entry:
-                for attributes in entry[genre]:
-                    #print attributes
-                    i += 1
-                    if (self.max_exports > 0 and i > self.max_exports):
-                        break
-                    fileCopier.copy(
-                        attributes["Location"],
-                        genre,
-                        attributes["Artist"],
-                        attributes["Name"])
+                if (filterGenres):
+                    if (genre in self.export_genres):
+                        read_attributes(entry[genre])
+                else:
+                    read_attributes(entry[genre])
 
 def print_help():
     print "\nMusicExporter -"
@@ -215,29 +225,60 @@ def main():
         print_help()
         return 0
 
-    libraryPath = args[1]
-    destination = args[2]
+    optionParser = OptionParser()
+    optionParser.add_option(
+        "-l",
+        "--library",
+        action="store",
+        type="string",
+        dest="libraryPath")
+
+    optionParser.add_option(
+        "-d",
+        "--destination",
+        action="store",
+        type="string",
+        dest="destination")
+
+    optionParser.add_option(
+        "-g",
+        "--genres",
+        action="store",
+        type="string",
+        dest="export_genres")
+
+    optionParser.add_option(
+        "-m",
+        "--max-exports",
+        action="store",
+        type="int",
+        dest="max_exports",
+        default=0)
     
-    if (not os.path.exists(libraryPath)):
+    (options, args) = optionParser.parse_args()
+    #print options
+    #return 0
+    
+    if (not os.path.exists(options.libraryPath)):
         print "The library path is not valid."
         return 0
 
-    if(not os.path.isdir(destination)):
+    if(not os.path.isdir(options.destination)):
         print "Destination not existing. Please create it first."
         return 0
 
-    # Handling optional argument
-    try:
-        max_exports = int(args[3])
-    except IndexError:
-        max_exports = 0
-
     # Adds last slash if not provided
-    if (destination[len(destination) - 1] != "/"):
-        destination += "/"
+    if (options.destination[len(options.destination) - 1] != "/"):
+        options.destination += "/"
 
-    exporter = Exporter(destination, max_exports)
-    exporter.export_music_library(libraryPath)
+    if (options.export_genres):
+        options.export_genres = options.export_genres.replace("/", "-")
+
+    exporter = Exporter(
+        options.destination,
+        options.export_genres,
+        options.max_exports)
+    exporter.export_music_library(options.libraryPath)
 
 if __name__ == '__main__':
     main()

@@ -12,6 +12,26 @@
   <key>Library Persistent ID</key><string>8062604AFD617140</string>
   <key>Tracks</key>
   <dict>
+    <key>3563</key>
+    <dict>
+      <key>Track ID</key><integer>3563</integer>
+      <key>Name</key><string>Vamos a la playa</string>
+      <key>Genre</key><string>House/Vocal</string>
+      <key>Artist</key><string>Two Man Sound</string>
+      <key>Kind</key><string>MPEG audio file</string>
+      <key>Size</key><integer>301053</integer>
+      <key>Total Time</key><integer>18729</integer>
+      <key>Date Modified</key><date>2010-08-14T10:31:58Z</date>
+      <key>Date Added</key><date>2013-11-29T18:35:21Z</date>
+      <key>Bit Rate</key><integer>128</integer>
+      <key>Sample Rate</key><integer>44100</integer>
+      <key>Normalization</key><integer>2093</integer>
+      <key>Persistent ID</key><string>2E065088F2180343</string>
+      <key>Track Type</key><string>File</string>
+      <key>Location</key><string>file://home/rob/music-exporter-tests/vari/echiacapisc.mp3</string>
+      <key>File Folder Count</key><integer>5</integer>
+      <key>Library Folder Count</key><integer>2</integer>
+    </dict>
     <key>3564</key>
     <dict>
       <key>Track ID</key><integer>3564</integer>
