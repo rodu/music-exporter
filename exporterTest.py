@@ -102,6 +102,12 @@ class FileCopierTest(unittest.TestCase):
             "/home/rob/music-exporter-tests/vari/Suoneria-JJ_E_Samba.mp3",
             self.fileCopier._dropFileProtocol(filePath))
 
+    def test_sanitizeFileName_replacesInvalidChars(self):
+        self.assertEquals("hello_", self.fileCopier._sanitizeFileName("hello?"))
+        self.assertEquals(
+            "he_llo_ my na_me",
+            self.fileCopier._sanitizeFileName("he*llo? my na+me"))
+
     def test_buildFilePath_constructsCorrectPath(self):
         genre = "house-tribal"
         artist = "Kenny Dope"
