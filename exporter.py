@@ -147,18 +147,22 @@ class FileCopier():
         """
         Copies the file given by file path to the current destination held.
         """
+        sourcePath = self._dropFileProtocol(filePath)
         targetPath = self.destination + genre
         if (self._makeFolder(targetPath)):
-            try:
-                shutil.copyfile(
-                    self._dropFileProtocol(filePath),
-                    self._buildFilePath(
-                        self._sanitizeFileName(genre),
-                        self._sanitizeFileName(artist),
-                        self._sanitizeFileName(title))
-                    )
-            except IOError:
-                print "[FileCopier] Error copying " + filePath
+            if (os.path.exists(sourcePath)):
+                try:
+                    shutil.copyfile(
+                        sourcePath,
+                        self._buildFilePath(
+                            self._sanitizeFileName(genre),
+                            self._sanitizeFileName(artist),
+                            self._sanitizeFileName(title))
+                        )
+                except IOError:
+                    print "[FileCopier] Error copying " + filePath
+            else:
+                print "[FileCopier] Not exists: " + sourcePath
         else:
             print "[FileCopier] Error creating folder " + targetPath
 
