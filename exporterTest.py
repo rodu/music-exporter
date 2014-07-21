@@ -105,6 +105,16 @@ class FileCopierTest(unittest.TestCase):
             "/home/rob/music-exporter-tests/vari/Suoneria-JJ_E_Samba.mp3",
             self.fileCopier._dropFileProtocol(filePath))
 
+        filePath = "file://localhost/home/rob/music-exporter-tests/vari/Suoneria-JJ_E_Samba.mp3"
+        self.assertEquals(
+            "/home/rob/music-exporter-tests/vari/Suoneria-JJ_E_Samba.mp3",
+            self.fileCopier._dropFileProtocol(filePath))
+
+        filePath = "file://localhost/home/rob/music%20exporter%20tests/vari/Suoneria-JJ_E_Samba.mp3"
+        self.assertEquals(
+            "/home/rob/music exporter tests/vari/Suoneria-JJ_E_Samba.mp3",
+            self.fileCopier._dropFileProtocol(filePath))
+
     def test_sanitizeFileName_replacesInvalidChars(self):
         self.assertEquals("hello_", self.fileCopier._sanitizeFileName("hello?"))
         self.assertEquals(

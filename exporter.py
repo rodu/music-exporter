@@ -43,7 +43,7 @@ class ParserContentHandler(handler.ContentHandler):
 
     def optimiseContent(self, content):
         if (content):
-            return content.replace("/", "-")
+            return content.replace("/", "-").replace("%20", " ")
         return "Unknown"
 
     def endElement(self, name):
@@ -129,10 +129,14 @@ class FileCopier():
         If receiving a filePath containing a file:// protocol, it will return a
         new value without the protocol
         """
+        _filePath = filePath
         if (re.match(r"(file:\/\/)", filePath)):
-            return filePath[6:len(filePath)]
+            _filePath = filePath[6:len(filePath)]
 
-        return filePath
+        if (re.match(r"(\/localhost)", _filePath)):
+            _filePath = _filePath[10:len(_filePath)]
+
+        return _filePath.replace("%20", " ")
 
     def _sanitizeFileName(self, fileName):
         """
@@ -276,7 +280,7 @@ def main():
         options.destination += "/"
 
     if (options.export_genres):
-        options.export_genres = options.export_genres.replace("/", "-")
+        options.export_genres = options.export_genres.replace("/", "-").replace("%20", " ")
 
     exporter = Exporter(
         options.destination,
