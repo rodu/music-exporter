@@ -78,10 +78,81 @@ class ParserContentHandler(handler.ContentHandler):
         #print self._data_dictionary
         return self._data_dictionary
 
+import re
+import os
+import shutil
+class FileCopier():
+
+    def __init__(self, destination):
+        if (not destination):
+            raise Exception("destination parameter not provided")
+
+        self.destination = destination
+        print "[FileCopier] Initialized with destination " + destination
+
+    def _extractFolderPath(self, filePath):
+        """
+        Receive a complete file path and returns a new path pointing to the
+        folder containing the given file. The method returns 0 if operation
+        fails.
+        """
+        if (not filePath or filePath.count("/") < 3):
+            return 0
+
+        return filePath[0:filePath.rfind("/")]
+
+    def _makeFolder(self, folderPath):
+        """
+        Creates the folder with the given name parameter at the given path.
+        It does nothing if such folder already exists at the given path.
+        """
+        if (os.path.isdir(folderPath)):
+            return 1
+
+        try:
+            os.makedirs(folderPath)
+        except OSError:
+            return 0
+        
+        return 1
+
+    def _buildFilePath(self, genre, artist, title):
+        """
+        Given genre, artist title and known destination the method builds the
+        target to be used in the file copy.
+        """
+        return self.destination + genre + "/" + artist + " - " + title + ".mp3"
+
+    def _dropFileProtocol(self, filePath):
+        """
+        If receiving a filePath containing a file:// protocol, it will return a
+        new value without the protocol
+        """
+        if (re.match(r"(file:\/\/)", filePath)):
+            return filePath[6:len(filePath)]
+
+        return filePath
+
+    def copy(self, filePath, genre, artist, title):
+        """
+        Copies the file given by file path to the current destination held.
+        """
+        targetPath = self.destination + genre
+        if (self._makeFolder(targetPath)):
+            try:
+                shutil.copyfile(
+                    self._dropFileProtocol(filePath),
+                    self._buildFilePath(genre, artist, title))
+            except IOError:
+                print "[FileCopier] Error copying " + filePath
+        else:
+            print "[FileCopier] Error creating folder " + targetPath
+
+
 class Exporter():
 
     def __init__(self):
-        pass
+        self.destination = "/home/rob/music-exporter-tests/"
 
     def _build_data_dictionary(self, library_path):
         # The routine will parse the music library XML and will build a data
@@ -96,19 +167,25 @@ class Exporter():
 
     def export_music_library(self, library_path):
         library_dict = self._build_data_dictionary(library_path)
-        # Loops over library_dict and generates a file containing copy instructions
+        fileCopier = FileCopier(self.destination)
+        # Loops over the library dictionary and copies the necessary files in
+        # the appropriate destination
+        print "[Exporter] Copying files..."
         for entry in library_dict:
             for genre in entry:
-                #print("cp " + genres["Genre"] + " destination\n")
-                print genre
                 for attributes in entry[genre]:
-                    print attributes["Location"]
-                break
+                    #print attributes
+                    fileCopier.copy(
+                        attributes["Location"],
+                        genre,
+                        attributes["Artist"],
+                        attributes["Name"])
+                #break
 
 
 def main():
     exporter = Exporter()
-    exporter.export_music_library("../Library.xml")
+    exporter.export_music_library("test_data.xml")
 
 if __name__ == '__main__':
     main()

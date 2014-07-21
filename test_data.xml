@@ -26,7 +26,7 @@
       <key>Normalization</key><integer>2093</integer>
       <key>Persistent ID</key><string>2E065088F2180343</string>
       <key>Track Type</key><string>File</string>
-      <key>Location</key><string>file://localhost/Users/rob/Documents/from_Ubuntu/Documents/vari/echiacapisc.mp3</string>
+      <key>Location</key><string>file://home/rob/music-exporter-tests/vari/echiacapisc.mp3</string>
       <key>File Folder Count</key><integer>5</integer>
       <key>Library Folder Count</key><integer>2</integer>
     </dict>
@@ -49,7 +49,7 @@
       <key>Normalization</key><integer>1511</integer>
       <key>Persistent ID</key><string>F80929AE5634450D</string>
       <key>Track Type</key><string>File</string>
-      <key>Location</key><string>file://localhost/Users/rob/Documents/from_Ubuntu/Documents/vari/Suoneria-Hysteric_Ego_Want_love.mp3</string>
+      <key>Location</key><string>file://home/rob/music-exporter-tests/vari/Suoneria-Hysteric_Ego_Want_love.mp3</string>
       <key>File Folder Count</key><integer>5</integer>
       <key>Library Folder Count</key><integer>2</integer>
     </dict>
@@ -72,7 +72,7 @@
       <key>Normalization</key><integer>2942</integer>
       <key>Persistent ID</key><string>83E01DE118679C1E</string>
       <key>Track Type</key><string>File</string>
-      <key>Location</key><string>file://localhost/Users/rob/Documents/from_Ubuntu/Documents/vari/Suoneria-JJ_E_Samba.mp3</string>
+      <key>Location</key><string>file://home/rob/music-exporter-tests/vari/Suoneria-JJ_E_Samba.mp3</string>
       <key>File Folder Count</key><integer>5</integer>
       <key>Library Folder Count</key><integer>2</integer>
     </dict>
@@ -82,7 +82,7 @@
       <key>Name</key><string>O Sole Mio</string>
       <key>Artist</key><string>Pappalardo</string>
       <key>Album</key><string>Tutti Al Mare Con Pappalardo!</string>
-      <key>Genre</key><string>Vomitante</string>
+      <key>Genre</key><string>Bleach</string>
       <key>Kind</key><string>MPEG audio file</string>
       <key>Size</key><integer>638769</integer>
       <key>Total Time</key><integer>39915</integer>
