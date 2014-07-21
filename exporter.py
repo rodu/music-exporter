@@ -161,11 +161,12 @@ class FileCopier():
         else:
             print "[FileCopier] Error creating folder " + targetPath
 
-
+import sys
 class Exporter():
 
-    def __init__(self):
-        self.destination = "/home/rob/music-exporter-tests/"
+    def __init__(self, destination, max_exports=0):
+        self.destination = destination
+        self.max_exports = max_exports
 
     def _build_data_dictionary(self, library_path):
         # The routine will parse the music library XML and will build a data
@@ -184,21 +185,59 @@ class Exporter():
         # Loops over the library dictionary and copies the necessary files in
         # the appropriate destination
         print "[Exporter] Copying files..."
+        i = 0
         for entry in library_dict:
             for genre in entry:
                 for attributes in entry[genre]:
                     #print attributes
+                    i += 1
+                    if (self.max_exports > 0 and i > self.max_exports):
+                        break
                     fileCopier.copy(
                         attributes["Location"],
                         genre,
                         attributes["Artist"],
                         attributes["Name"])
-                #break
 
+def print_help():
+    print "\nMusicExporter -"
+    print "exporter.py [library path] [destination path] [max files export]"
+    print "\n"
 
 def main():
-    exporter = Exporter()
-    exporter.export_music_library("test_data.xml")
+    """
+    The method accepts and validates command line arguments. Then runs the
+    exporter routines
+    """
+    args = sys.argv
+    if (len(args) < 3):
+        print "Invalid parameters."
+        print_help()
+        return 0
+
+    libraryPath = args[1]
+    destination = args[2]
+    
+    if (not os.path.exists(libraryPath)):
+        print "The library path is not valid."
+        return 0
+
+    if(not os.path.isdir(destination)):
+        print "Destination not existing. Please create it first."
+        return 0
+
+    # Handling optional argument
+    try:
+        max_exports = int(args[3])
+    except IndexError:
+        max_exports = 0
+
+    # Adds last slash if not provided
+    if (destination[len(destination) - 1] != "/"):
+        destination += "/"
+
+    exporter = Exporter(destination, max_exports)
+    exporter.export_music_library(libraryPath)
 
 if __name__ == '__main__':
     main()
