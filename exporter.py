@@ -138,7 +138,7 @@ class FileCopier():
 
         return _filePath.replace("%20", " ")
 
-    def _sanitizeFileName(self, fileName):
+    def _sanitizeName(self, fileName):
         """
         Given the storage used as Fat32 for external USB drives, the file name
         must be free of invalid characters for such target filesystem
@@ -155,16 +155,18 @@ class FileCopier():
         targetPath = self.destination + genre
         if (self._makeFolder(targetPath)):
             if (os.path.exists(sourcePath)):
-                try:
-                    shutil.copyfile(
-                        sourcePath,
-                        self._buildFilePath(
-                            self._sanitizeFileName(genre),
-                            self._sanitizeFileName(artist),
-                            self._sanitizeFileName(title))
-                        )
-                except IOError:
-                    print "[FileCopier] Error copying " + filePath
+                destinationPath = self._buildFilePath(
+                    self._sanitizeName(genre),
+                    self._sanitizeName(artist),
+                    self._sanitizeName(title)
+                )
+                if (not os.path.exists(destinationPath)):
+                    try:
+                        shutil.copyfile(sourcePath, destinationPath)
+                    except IOError:
+                        print "[FileCopier] Error copying " + filePath
+                else:
+                    print "Skipping existing " + destinationPath
             else:
                 print "[FileCopier] Not exists: " + sourcePath
         else:
